@@ -1,7 +1,6 @@
 {
   "name": "bann-estore",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "build": "cd backend && npm install  && cd ../frontend && npm install && npm run build",
@@ -12,5 +11,15 @@
   "license": "ISC",
   "dependencies": {
     "react-google-charts": "^4.0.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicojay/bann-estore-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nicojay/bann-estore-project/issues"
+  },
+  "homepage": "https://github.com/nicojay/bann-estore-project#readme",
+  "description": ""
 }
