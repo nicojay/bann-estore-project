@@ -131,7 +131,7 @@ function ProductScreen() {
         <Col md={6}>
           <img
             className="img-large"
-            src={product.image}
+            src={selectedImage || product.image}
             alt={product.name}
           ></img>
         </Col>
