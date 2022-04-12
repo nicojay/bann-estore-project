@@ -265,7 +265,44 @@ function App() {
           </Container>
         </main>
         <footer className="footer">
-          <p>All rights reserved 2022. BANN Assistive Tech Store.</p>
+          <div className="logo">
+            <img className="logo" src="../images/logo.png" alt="logo"></img>
+          </div>
+          <ul className="socials">
+            <li>
+              <a href="https://www.facebook.com/">
+                <i className="fab fa-facebook-f"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.twitter.com/">
+                <i className="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.gmail.com/">
+                <i className="fas fa-envelope"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/">
+                <i className="fab fa-linkedin"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.pinterest.com/">
+                <i className="fab fa-pinterest"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/">
+                <i className="fab fa-instagram"></i>
+              </a>
+            </li>
+          </ul>
+          <div className="copyright">
+            All rights reserved. Copyright &copy; 2022 BANN Assistive Tech Store
+          </div>
         </footer>
       </div>
     </BrowserRouter>

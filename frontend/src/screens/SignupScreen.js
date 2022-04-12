@@ -85,6 +85,13 @@ export default function SignupScreen() {
           </Form.Group>
         </Form.Group>
         <div className="mb-3">
+          <p>
+            By creating an account, you agree to BANN Assistive Tech Store's{' '}
+            <a href="/">Conditions of Use</a> and
+            <a href="/"> Privacy Notice</a>.
+          </p>
+        </div>
+        <div className="mb-3">
           <Button type="submit">Sign Up</Button>
         </div>
         <div className="mb-3">
