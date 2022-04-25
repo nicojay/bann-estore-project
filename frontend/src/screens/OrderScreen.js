@@ -14,6 +14,8 @@ import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
 import { toast } from 'react-toastify';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -114,6 +116,7 @@ export default function OrderScreen() {
   }
 
   useEffect(() => {
+    AOS.init({ duration: 1000 });
     const fetchOrder = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
@@ -192,12 +195,15 @@ export default function OrderScreen() {
   ) : (
     <div>
       <Helmet>
-        <title>BANN - Order {orderId}</title>
+        <title>BANN - User Order {orderId}</title>
       </Helmet>
-      <h1 className="my-3">Order {orderId}</h1>
+      <h1 data-aos="fade" className="my-3">
+        Order {orderId}
+      </h1>
+      <hr data-aos="fade"></hr>
       <Row>
         <Col md={8}>
-          <Card className="mb-3">
+          <Card data-aos="slide-right" className="mb-3">
             <Card.Body>
               <Card.Title>Shipping</Card.Title>
               <Card.Text>
@@ -225,7 +231,7 @@ export default function OrderScreen() {
               )}
             </Card.Body>
           </Card>
-          <Card className="mb-3">
+          <Card data-aos="slide-right" className="mb-3">
             <Card.Body>
               <Card.Title>Payment</Card.Title>
               <Card.Text>
@@ -241,7 +247,7 @@ export default function OrderScreen() {
             </Card.Body>
           </Card>
 
-          <Card className="mb-3">
+          <Card data-aos="slide-right" className="mb-3">
             <Card.Body>
               <Card.Title>Items</Card.Title>
               <ListGroup variant="flush">
@@ -268,7 +274,7 @@ export default function OrderScreen() {
           </Card>
         </Col>
         <Col md={4}>
-          <Card className="mb-3">
+          <Card data-aos="slide-left" className="mb-3 ">
             <Card.Body>
               <Card.Title>Order Summary</Card.Title>
               <ListGroup variant="flush">
@@ -282,12 +288,6 @@ export default function OrderScreen() {
                   <Row>
                     <Col>Shipping</Col>
                     <Col>₱{order.shippingPrice.toFixed(2)}</Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Tax</Col>
-                    <Col>₱{order.taxPrice.toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>

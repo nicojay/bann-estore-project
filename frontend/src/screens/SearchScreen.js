@@ -12,6 +12,8 @@ import MessageBox from '../components/MessageBox';
 import Button from 'react-bootstrap/Button';
 import Product from '../components/Product';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -36,7 +38,7 @@ const reducer = (state, action) => {
 
 const prices = [
   {
-    name: '₱1 to ₱500',
+    name: '₱500 below',
     value: '1-500',
   },
   {
@@ -50,6 +52,10 @@ const prices = [
   {
     name: '₱5001 to ₱10000',
     value: '5001-10000',
+  },
+  {
+    name: '₱10000 & up',
+    value: '10000-50000',
   },
 ];
 
@@ -93,6 +99,7 @@ export default function SearchScreen() {
     });
 
   useEffect(() => {
+    AOS.init({ duration: 1000 });
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
@@ -137,9 +144,9 @@ export default function SearchScreen() {
         <title>BANN - Search Products</title>
       </Helmet>
       <Row>
-        <Col md={3}>
-          <h3>Category</h3>
-          <div>
+        <Col data-aos="slide-right" sm={4} md={3}>
+          <div sm={4} md={4}>
+            <h3>Category</h3>
             <ul>
               <li>
                 <Link
@@ -161,7 +168,7 @@ export default function SearchScreen() {
               ))}
             </ul>
           </div>
-          <div>
+          <div sm={4} md={4}>
             <h3>Price</h3>
             <ul>
               <li>
@@ -184,7 +191,7 @@ export default function SearchScreen() {
               ))}
             </ul>
           </div>
-          <div>
+          <div sm={4} md={4}>
             <h3>Avg. Customer Review</h3>
             <ul>
               {ratings.map((r) => (
@@ -208,7 +215,7 @@ export default function SearchScreen() {
             </ul>
           </div>
         </Col>
-        <Col md={9}>
+        <Col data-aos="fade" sm={12} md={9}>
           {loading ? (
             <LoadingBox></LoadingBox>
           ) : error ? (
@@ -244,7 +251,7 @@ export default function SearchScreen() {
                       navigate(getFilterUrl({ order: e.target.value }));
                     }}
                   >
-                    <option value="newest">Newest Arrivals</option>
+                    <option value="newest">Newest Products</option>
                     <option value="lowest">Price: Low to High</option>
                     <option value="highest">Price: High to Low</option>
                     <option value="toprated">Avg. Customer Reviews</option>
@@ -263,7 +270,7 @@ export default function SearchScreen() {
                 ))}
               </Row>
 
-              <div>
+              <div className="pagination">
                 {[...Array(pages).keys()].map((x) => (
                   <LinkContainer
                     key={x + 1}
@@ -272,7 +279,7 @@ export default function SearchScreen() {
                   >
                     <Button
                       className={Number(page) === x + 1 ? 'text-bold' : ''}
-                      variant="light"
+                      variant="primary"
                     >
                       {x + 1}
                     </Button>

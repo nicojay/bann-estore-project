@@ -8,6 +8,8 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -49,6 +51,7 @@ export default function UserListScreen() {
   const { userInfo } = state;
 
   useEffect(() => {
+    AOS.init({ duration: 1000 });
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
@@ -91,16 +94,17 @@ export default function UserListScreen() {
   return (
     <div>
       <Helmet>
-        <title>Users</title>
+        <title>BANN - List of Users</title>
       </Helmet>
-      <h1>Users</h1>
+      <h1 data-aos="fade">Users</h1>
+      <hr></hr>
       {loadingDelete && <LoadingBox></LoadingBox>}
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <table className="table">
+        <table data-aos="fade" className="table" sm={12} md={12}>
           <thead>
             <tr>
               <th>ID</th>
@@ -119,6 +123,7 @@ export default function UserListScreen() {
                 <td>{user.isAdmin ? 'YES' : 'NO'}</td>
                 <td>
                   <Button
+                    className="btn-secondary"
                     type="button"
                     variant="light"
                     onClick={() => navigate(`/admin/user/${user._id}`)}
@@ -127,6 +132,7 @@ export default function UserListScreen() {
                   </Button>
                   &nbsp;
                   <Button
+                    className="btn-secondary"
                     type="button"
                     variant="light"
                     onClick={() => deleteHandler(user)}

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Store } from '../Store';
 import { Helmet } from 'react-helmet-async';
 import Row from 'react-bootstrap/Row';
@@ -9,6 +9,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function CartScreen() {
   const navigate = useNavigate();
@@ -36,14 +38,19 @@ export default function CartScreen() {
     navigate('/signin?redirect=/shipping');
   };
 
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+
   return (
     <div>
       <Helmet>
         <title>BANN - Shopping Cart</title>
       </Helmet>
-      <h1>Shopping Cart</h1>
+      <h1 data-aos="fade">Shopping Cart</h1>
+      <hr data-aos="fade"></hr>
       <Row>
-        <Col md={8}>
+        <Col data-aos="slide-right" xs={12} md={8}>
           {cartItems.length === 0 ? (
             <MessageBox>
               Cart is empty. <Link to="/">Go Shopping</Link>
@@ -51,9 +58,13 @@ export default function CartScreen() {
           ) : (
             <ListGroup>
               {cartItems.map((item) => (
-                <ListGroup.Item key={item._id}>
+                <ListGroup.Item
+                  data-aos="slide-up"
+                  data-aos-id="super-duper"
+                  key={item._id}
+                >
                   <Row className="align-items-center">
-                    <Col md={4}>
+                    <Col xs={12} md={4}>
                       <img
                         src={item.image}
                         alt={item.name}
@@ -61,7 +72,7 @@ export default function CartScreen() {
                       ></img>{' '}
                       <Link to={`/product/${item.slug}`}>{item.name}</Link>
                     </Col>
-                    <Col md={3}>
+                    <Col xs={6} md={3}>
                       <Button
                         onClick={() =>
                           updateCartHandler(item, item.quantity - 1)
@@ -82,8 +93,10 @@ export default function CartScreen() {
                         <i className="fas fa-plus-circle"></i>
                       </Button>
                     </Col>
-                    <Col md={3}>₱{item.price}</Col>
-                    <Col md={2}>
+                    <Col xs={4} md={3}>
+                      ₱{item.price - item.discount}
+                    </Col>
+                    <Col xs={2} md={2}>
                       <Button
                         onClick={() => removeItemHandler(item)}
                         variant="light"
@@ -97,15 +110,18 @@ export default function CartScreen() {
             </ListGroup>
           )}
         </Col>
-        <Col md={4}>
-          <Card>
+        <Col xs={12} md={4}>
+          <Card data-aos="slide-left">
             <Card.Body>
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <h3>
                     Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
                     items) : ₱
-                    {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
+                    {cartItems.reduce(
+                      (a, c) => a + (c.price - c.discount) * c.quantity,
+                      0
+                    )}
                   </h3>
                 </ListGroup.Item>
                 <ListGroup.Item>

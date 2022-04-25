@@ -1,27 +1,120 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  margin-top: 100px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+  font-size: medium;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.logo {
-  height: 60px;
-  padding-left: 5px;
+a {
+  text-decoration: none;
+}
+table {
+  border: 1px solid;
+  text-align: center;
+}
+h1 {
+  font-weight: 800;
+}
+h2 {
+  font-weight: 600;
 }
 
+main {
+  flex: 1;
+  min-height: 58vh;
+}
+.container {
+  margin-bottom: 10px;
+}
+.pagination {
+  justify-content: center;
+  color: #03ffff;
+}
+.navname {
+  font-size: large;
+  color: #fff;
+  padding: 3px;
+  align-self: center;
+}
+
+.logo {
+  height: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.row-cont {
+  align-items: center;
+  justify-content: center;
+}
+.searchbox {
+  width: 100%;
+  padding-left: 50px;
+}
+
+.search-container {
+  width: 100%;
+}
 .site-container {
   min-height: 100vh;
 }
-main {
-  flex: 1;
+.text-container {
+  padding: 20px;
+  text-align: center;
 }
+
 .btn-primary,
 .btn-outline-primary {
+  background-color: #fff;
+  color: #000000;
+  border-width: 3px;
+  border-color: #03ffff;
+}
+
+.btn-primary:hover,
+.btn-outline-primary:hover {
   background-color: #03ffff;
   color: #000000;
+  border-width: 3px;
+  border-color: #03ffff;
+}
+
+.btn-secondary,
+.btn-outline-secondary {
+  background-color: #fff;
+  color: #000000;
+  border-width: 1px;
+  border-color: #03ffff;
+}
+
+.btn-secondary:hover,
+.btn-outline-secondary:hover {
+  background-color: #03ffff;
+  color: #000000;
+  border-width: 1px;
+  border-color: #03ffff;
+}
+.box {
+  border-style: solid;
+  text-align: center;
+  border-radius: 10px;
+  border-color: #404040;
+  padding: 10px;
+  height: 100px;
+}
+.box i {
+  font-size: 80px;
+  color: #03ffff;
+}
+.box strong {
+  font-size: 25px;
+}
+.fprod {
+  text-align: center;
+  padding: 10px;
+  font-style: oblique;
 }
 .products {
   display: flex;
@@ -45,14 +138,94 @@ main {
 
 .img-large {
   max-width: 100%;
+  max-height: 100%;
+  align-self: center;
 }
 .img-thumbnail {
   height: 80px;
 }
-.small-container {
-  max-width: 600px;
+.user-image {
+  height: 100px;
+  width: 100px;
+  border-radius: 130px;
 }
 
+.reviews-container {
+  text-align: left;
+  justify-content: left;
+  padding: 20px;
+}
+.review-container {
+  text-align: left;
+  justify-content: left;
+  padding: 20px;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: #03ffff;
+}
+.small-container {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  padding-top: 20px;
+  padding-bottom: 90px;
+}
+.incontainer {
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  box-shadow: 11px 12px 13px 12px rgb(207, 207, 207);
+  padding: 50px;
+  border-radius: 60px;
+  background-color: white;
+}
+.med-container {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  width: 100%;
+}
+.inmedcontainer {
+  justify-content: center;
+  height: 100%;
+  width: 80%;
+  box-shadow: 11px 12px 13px 12px rgb(207, 207, 207);
+  padding: 50px;
+  border-radius: 60px;
+  background-color: white;
+}
+.formcheck {
+  width: 200px;
+  text-align: left;
+}
+.forminput {
+  height: 50px;
+  border-radius: 60px;
+  box-shadow: inset 0px 0px 25px 0px #03ffff;
+  text-align: center;
+  border: none;
+  outline: none;
+  background-color: #fff;
+}
+.button {
+  width: 300px;
+  height: 50px;
+  border-radius: 60px;
+  box-shadow: inset 0px 0px 25px 0px #a0a0a0;
+  border: none;
+  outline: none;
+  background-color: #fff;
+  font-weight: 800;
+}
+.button:hover {
+  width: 310px;
+  height: 50px;
+  border-radius: 60px;
+  background-color: #03ffff;
+}
 .checkout-steps > div {
   border-bottom: 0.2rem solid #a0a0a0;
   color: #a0a0a0;
@@ -60,32 +233,6 @@ main {
 .checkout-steps > div.active {
   border-bottom: 0.2rem solid #f08000;
   color: #f08000;
-}
-
-/* sidebar */
-.navbar-brand {
-  font-weight: bold;
-}
-.side-navbar {
-  width: 240px;
-  height: 100%;
-  position: absolute;
-  left: -300px;
-  background-color: #404040;
-  transition: 0.5s;
-}
-
-.site-container {
-  transition: 0.4s;
-}
-.active-cont {
-  margin-left: 240px;
-}
-.active-nav {
-  left: 0;
-}
-.text-bold {
-  font-weight: bold;
 }
 
 /* Map */
@@ -132,11 +279,35 @@ button.thumbnail {
   padding: 0;
 }
 
-.footer {
+.footer-container {
   background-color: #404040 !important;
   color: #fff !important;
   padding: 30px 0 !important;
+  margin-left: 50px;
+  margin-right: 50px;
   text-align: center;
+}
+
+.footer {
+  background-color: #404040 !important;
+  color: #fff !important;
+  padding: 30px 30px 0px 30px !important;
+  justify-content: center;
+  width: 100%;
+}
+.footer-box h6 {
+  color: #03ffff;
+  font-weight: 600;
+  font-size: x-large;
+}
+.footer-box p {
+  color: #fff;
+  text-align: left;
+}
+.footer-box i {
+  color: #03ffff;
+  font-weight: 600;
+  font-size: x-large;
 }
 
 .footer .logo {

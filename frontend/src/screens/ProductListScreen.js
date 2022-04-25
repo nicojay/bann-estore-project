@@ -9,6 +9,9 @@ import { Store } from '../Store';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { getError } from '../utils';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { Helmet } from 'react-helmet-async';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -77,6 +80,7 @@ export default function ProductListScreen() {
   const { userInfo } = state;
 
   useEffect(() => {
+    AOS.init({ duration: 1000 });
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`/api/products/admin?page=${page} `, {
@@ -94,7 +98,7 @@ export default function ProductListScreen() {
   }, [page, userInfo, successDelete]);
 
   const createHandler = async () => {
-    if (window.confirm('Are you sure to create?')) {
+    if (window.confirm('Are you sure to create a new product?')) {
       try {
         dispatch({ type: 'CREATE_REQUEST' });
         const { data } = await axios.post(
@@ -104,7 +108,7 @@ export default function ProductListScreen() {
             headers: { Authorization: `Bearer ${userInfo.token}` },
           }
         );
-        toast.success('product created successfully');
+        toast.success('Product Created Successfully!');
         dispatch({ type: 'CREATE_SUCCESS' });
         navigate(`/admin/product/${data.product._id}`);
       } catch (err) {
@@ -122,7 +126,7 @@ export default function ProductListScreen() {
         await axios.delete(`/api/products/${product._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        toast.success('product deleted successfully');
+        toast.success('Product Deleted Successfully');
         dispatch({ type: 'DELETE_SUCCESS' });
       } catch (err) {
         toast.error(getError(error));
@@ -135,17 +139,21 @@ export default function ProductListScreen() {
 
   return (
     <div>
+      <Helmet>
+        <title>BANN - List of Products</title>
+      </Helmet>
       <Row>
         <Col>
-          <h1>Products</h1>
+          <h1 data-aos="fade">Products</h1>
         </Col>
         <Col className="col text-end">
-          <div>
+          <div data-aos="fade">
             <Button type="button" onClick={createHandler}>
               Create Product
             </Button>
           </div>
         </Col>
+        <hr></hr>
       </Row>
 
       {loadingCreate && <LoadingBox></LoadingBox>}
@@ -157,12 +165,14 @@ export default function ProductListScreen() {
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <>
-          <table className="table">
+          <table data-aos="fade" className="table" sm={12} md={12}>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>IMAGE</th>
                 <th>NAME</th>
+                <th>ID</th>
                 <th>PRICE</th>
+                <th>COUNT IN STOCK</th>
                 <th>CATEGORY</th>
                 <th>BRAND</th>
                 <th>ACTIONS</th>
@@ -171,13 +181,22 @@ export default function ProductListScreen() {
             <tbody>
               {products.map((product) => (
                 <tr key={product._id}>
-                  <td>{product._id}</td>
+                  <td>
+                    <img
+                      src={product.image}
+                      className="logo"
+                      alt={product.name}
+                    />
+                  </td>
                   <td>{product.name}</td>
-                  <td>{product.price}</td>
+                  <td>{product._id}</td>
+                  <td>₱{product.price}</td>
+                  <td>{product.countInStock}</td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>
                     <Button
+                      className="btn-secondary"
                       type="button"
                       variant="light"
                       onClick={() => navigate(`/admin/product/${product._id}`)}
@@ -186,6 +205,7 @@ export default function ProductListScreen() {
                     </Button>
                     &nbsp;
                     <Button
+                      className="btn-secondary"
                       type="button"
                       variant="light"
                       onClick={() => deleteHandler(product)}
@@ -197,7 +217,7 @@ export default function ProductListScreen() {
               ))}
             </tbody>
           </table>
-          <div>
+          <div className="pagination">
             {[...Array(pages).keys()].map((x) => (
               <Link
                 className={x + 1 === Number(page) ? 'btn text-bold' : 'btn'}

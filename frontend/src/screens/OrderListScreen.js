@@ -8,6 +8,8 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -48,6 +50,7 @@ export default function OrderListScreen() {
     });
 
   useEffect(() => {
+    AOS.init({ duration: 1000 });
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
@@ -90,22 +93,24 @@ export default function OrderListScreen() {
   return (
     <div>
       <Helmet>
-        <title>Orders</title>
+        <title>BANN - List of Orders</title>
       </Helmet>
-      <h1>Orders</h1>
+      <h1 data-aos="fade">Orders</h1>
+      <hr></hr>
       {loadingDelete && <LoadingBox></LoadingBox>}
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <table className="table">
+        <table data-aos="fade" className="table" sm={12} md={12}>
           <thead>
             <tr>
               <th>ID</th>
               <th>USER</th>
               <th>DATE</th>
               <th>TOTAL</th>
+              <th>PAYMENT METHOD</th>
               <th>PAID</th>
               <th>DELIVERED</th>
               <th>ACTIONS</th>
@@ -117,7 +122,8 @@ export default function OrderListScreen() {
                 <td>{order._id}</td>
                 <td>{order.user ? order.user.name : 'DELETED USER'}</td>
                 <td>{order.createdAt.substring(0, 10)}</td>
-                <td>{order.totalPrice.toFixed(2)}</td>
+                <td>₱{order.totalPrice.toFixed(2)}</td>
+                <td>{order.paymentMethod}</td>
                 <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
                 <td>
                   {order.isDelivered
@@ -126,6 +132,7 @@ export default function OrderListScreen() {
                 </td>
                 <td>
                   <Button
+                    className="btn-secondary"
                     type="button"
                     variant="light"
                     onClick={() => {
@@ -136,8 +143,14 @@ export default function OrderListScreen() {
                   </Button>
                   &nbsp;
                   <Button
+                    className="btn-secondary"
                     type="button"
                     variant="light"
+                    disabled={
+                      order.isPaid ||
+                      order.paymentMethod === 'Cash on Delivery' ||
+                      (order.isPaid && !order.isDelivered)
+                    }
                     onClick={() => deleteHandler(order)}
                   >
                     Delete

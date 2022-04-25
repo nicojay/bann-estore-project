@@ -10,6 +10,8 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -48,6 +50,7 @@ export default function UserEditScreen() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    AOS.init({ duration: 1000 });
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
@@ -90,53 +93,56 @@ export default function UserEditScreen() {
     }
   };
   return (
-    <Container className="small-container">
+    <Container data-aos="zoom-in" className="med-container">
       <Helmet>
         <title>Edit User ${userId}</title>
       </Helmet>
-      <h1>Edit User {userId}</h1>
+      <div className="inmedcontainer">
+        <h1 data-aos="fade">Edit User {userId}</h1>
+        {loading ? (
+          <LoadingBox></LoadingBox>
+        ) : error ? (
+          <MessageBox variant="danger">{error}</MessageBox>
+        ) : (
+          <Form onSubmit={submitHandler}>
+            <Form.Group className="mb-3" controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                className="forminput"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                className="forminput"
+                value={email}
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-      {loading ? (
-        <LoadingBox></LoadingBox>
-      ) : error ? (
-        <MessageBox variant="danger">{error}</MessageBox>
-      ) : (
-        <Form onSubmit={submitHandler}>
-          <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
+            <Form.Check
+              className="mb-3 formcheck"
+              type="checkbox"
+              id="isAdmin"
+              label="isAdmin"
+              checked={isAdmin}
+              onChange={(e) => setIsAdmin(e.target.checked)}
             />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              value={email}
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </Form.Group>
 
-          <Form.Check
-            className="mb-3"
-            type="checkbox"
-            id="isAdmin"
-            label="isAdmin"
-            checked={isAdmin}
-            onChange={(e) => setIsAdmin(e.target.checked)}
-          />
-
-          <div className="mb-3">
-            <Button disabled={loadingUpdate} type="submit">
-              Update
-            </Button>
-            {loadingUpdate && <LoadingBox></LoadingBox>}
-          </div>
-        </Form>
-      )}
+            <div className="mb-3">
+              <Button disabled={loadingUpdate} type="submit">
+                Update
+              </Button>
+              {loadingUpdate && <LoadingBox></LoadingBox>}
+            </div>
+          </Form>
+        )}
+      </div>
     </Container>
   );
 }

@@ -3,11 +3,15 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { Helmet } from 'react-helmet-async';
 import { useContext, useEffect, useState } from 'react';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function SigninScreen() {
   const navigate = useNavigate();
@@ -36,49 +40,75 @@ export default function SigninScreen() {
   };
 
   useEffect(() => {
+    AOS.init({ duration: 1000 });
     if (userInfo) {
       navigate(redirect);
     }
   }, [navigate, redirect, userInfo]);
 
   return (
-    <Container className="small-container">
+    <Container>
       <Helmet>
-        <title>BANN - Sign In</title>
+        <title>BANN - User Sign In</title>
       </Helmet>
-      <h1 className="my-3">Sign In</h1>
-      <Form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            required
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            required
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-        <div className="mb-3">
-          <p>
-            By continuing, you agree to BANN Assistive Tech Store's{' '}
-            <a href="/">Conditions of Use</a> and
-            <a href="/"> Privacy Notice</a>.
-          </p>
-        </div>
-        <div className="mb-3">
-          <Button type="submit">Sign In</Button>
-        </div>
-        <div className="mb-3">
-          New customer?{' '}
-          <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
-        </div>
-      </Form>
+      <Row>
+        <Col xs={12} md={6}>
+          <img
+            data-aos="fade"
+            className="img-large"
+            src="../images/signin.jpg"
+            alt="logo"
+          ></img>
+        </Col>
+        <Col data-aos="fade-left" className="small-container" xs={12} md={6}>
+          <div className="incontainer">
+            <img
+              className="user-image"
+              src="../images/user.png"
+              alt="logo"
+            ></img>
+            <h1 className="my-3">Sign In</h1>
+            <Form onSubmit={submitHandler}>
+              <Form.Group className="mb-3" controlId="email">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  className="forminput"
+                  type="email"
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  className="forminput"
+                  type="password"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Group>
+              <div className="mb-3">
+                <p>
+                  By continuing, you agree to BANN Assistive Tech Store's{' '}
+                  <a href="/">Conditions of Use</a> and
+                  <a href="/"> Privacy Notice</a>.
+                </p>
+              </div>
+              <div className="mb-3">
+                <Button type="submit" className="button">
+                  Sign In
+                </Button>
+              </div>
+              <div className="mb-3">
+                New customer?{' '}
+                <Link to={`/signup?redirect=${redirect}`}>
+                  Create your account
+                </Link>
+              </div>
+            </Form>
+          </div>
+        </Col>
+      </Row>
     </Container>
   );
 }

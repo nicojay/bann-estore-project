@@ -69,15 +69,15 @@ orderRouter.get(
       },
       { $sort: { _id: 1 } },
     ]);
-    const productCategories = await Product.aggregate([
+    const products = await Product.aggregate([
       {
         $group: {
-          _id: '$category',
-          count: { $sum: 1 },
+          _id: '$product',
+          numProducts: { $sum: 1 },
         },
       },
     ]);
-    res.send({ users, orders, dailyOrders, productCategories });
+    res.send({ users, orders, dailyOrders, products });
   })
 );
 
@@ -145,7 +145,6 @@ orderRouter.put(
 orderRouter.delete(
   '/:id',
   isAuth,
-  isAdmin,
   expressAsyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (order) {

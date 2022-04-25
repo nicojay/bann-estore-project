@@ -12,6 +12,8 @@ import { getError } from '../utils';
 import { Store } from '../Store';
 import CheckoutSteps from '../components/CheckoutSteps';
 import LoadingBox from '../components/LoadingBox';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -39,9 +41,8 @@ export default function PlaceOrderScreen() {
   cart.itemsPrice = round2(
     cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
   );
-  cart.shippingPrice = cart.itemsPrice > 100 ? round2(0) : round2(10);
-  cart.taxPrice = round2(0.15 * cart.itemsPrice);
-  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
+  cart.shippingPrice = cart.itemsPrice > 20000 ? round2(0) : round2(50);
+  cart.totalPrice = cart.itemsPrice + cart.shippingPrice;
 
   const placeOrderHandler = async () => {
     try {
@@ -75,6 +76,7 @@ export default function PlaceOrderScreen() {
   };
 
   useEffect(() => {
+    AOS.init({ duration: 1000 });
     if (!cart.paymentMethod) {
       navigate('/payment');
     }
@@ -84,12 +86,15 @@ export default function PlaceOrderScreen() {
     <div>
       <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
       <Helmet>
-        <title>BANN - Preview Order</title>
+        <title>BANN - User Preview Order</title>
       </Helmet>
-      <h1 className="my-3">Preview Order</h1>
+      <h1 data-aos="fade" className="my-3">
+        Preview Order
+      </h1>
+      <hr data-aos="fade"></hr>
       <Row>
         <Col md={8}>
-          <Card className="mb-3">
+          <Card data-aos="slide-right" className="mb-3">
             <Card.Body>
               <Card.Title>Shipping</Card.Title>
               <Card.Text>
@@ -102,7 +107,7 @@ export default function PlaceOrderScreen() {
             </Card.Body>
           </Card>
 
-          <Card className="mb-3">
+          <Card data-aos="slide-right" className="mb-3">
             <Card.Body>
               <Card.Title>Payment</Card.Title>
               <Card.Text>
@@ -112,14 +117,14 @@ export default function PlaceOrderScreen() {
             </Card.Body>
           </Card>
 
-          <Card className="mb-3">
+          <Card data-aos="slide-right" className="mb-3">
             <Card.Body>
               <Card.Title>Items</Card.Title>
               <ListGroup variant="flush">
                 {cart.cartItems.map((item) => (
                   <ListGroup.Item key={item._id}>
                     <Row className="align-items-center">
-                      <Col md={6}>
+                      <Col xs={8} md={6}>
                         <img
                           src={item.image}
                           alt={item.name}
@@ -127,10 +132,12 @@ export default function PlaceOrderScreen() {
                         ></img>{' '}
                         <Link to={`/product/${item.slug}`}>{item.name}</Link>
                       </Col>
-                      <Col md={3}>
+                      <Col xs={1} md={3}>
                         <span>{item.quantity}</span>
                       </Col>
-                      <Col md={3}>₱{item.price}</Col>
+                      <Col xs={3} md={3}>
+                        ₱{item.price}
+                      </Col>
                     </Row>
                   </ListGroup.Item>
                 ))}
@@ -140,7 +147,7 @@ export default function PlaceOrderScreen() {
           </Card>
         </Col>
         <Col md={4}>
-          <Card>
+          <Card data-aos="slide-left">
             <Card.Body>
               <Card.Title>Order Summary</Card.Title>
               <ListGroup variant="flush">
@@ -156,12 +163,7 @@ export default function PlaceOrderScreen() {
                     <Col>₱{cart.shippingPrice.toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Tax</Col>
-                    <Col>₱{cart.taxPrice.toFixed(2)}</Col>
-                  </Row>
-                </ListGroup.Item>
+
                 <ListGroup.Item>
                   <Row>
                     <Col>

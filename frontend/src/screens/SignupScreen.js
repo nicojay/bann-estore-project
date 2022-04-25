@@ -8,6 +8,10 @@ import { useContext, useEffect, useState } from 'react';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
+import Row from 'react-bootstrap/esm/Row';
+import Col from 'react-bootstrap/esm/Col';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function SignupScreen() {
   const navigate = useNavigate();
@@ -43,6 +47,7 @@ export default function SignupScreen() {
   };
 
   useEffect(() => {
+    AOS.init({ duration: 1000 });
     if (userInfo) {
       navigate(redirect);
     }
@@ -51,54 +56,77 @@ export default function SignupScreen() {
   return (
     <Container className="small-container">
       <Helmet>
-        <title>BANN - Sign Up</title>
+        <title>BANN - User Sign Up</title>
       </Helmet>
-      <h1 className="my-3">Sign Up</h1>
-      <Form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Name</Form.Label>
-          <Form.Control onChange={(e) => setName(e.target.value)} required />
-        </Form.Group>
+      <Row>
+        <Col xs={12} md={6}>
+          <img
+            data-aos="fade"
+            className="img-large"
+            src="../images/signup.jpg"
+            alt="logo"
+          ></img>
+        </Col>
+        <Col data-aos="fade-left" className="small-container" xs={12} md={6}>
+          <div className="incontainer">
+            <h1 className="my-3">Create an Account</h1>
+            <Form onSubmit={submitHandler}>
+              <Form.Group className="mb-3" controlId="name">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  className="forminput"
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </Form.Group>
 
-        <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            required
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            required
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Form.Group className="mb-3" controlId="confirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </Form.Group>
-        </Form.Group>
-        <div className="mb-3">
-          <p>
-            By creating an account, you agree to BANN Assistive Tech Store's{' '}
-            <a href="/">Conditions of Use</a> and
-            <a href="/"> Privacy Notice</a>.
-          </p>
-        </div>
-        <div className="mb-3">
-          <Button type="submit">Sign Up</Button>
-        </div>
-        <div className="mb-3">
-          Already have an account?{' '}
-          <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
-        </div>
-      </Form>
+              <Form.Group className="mb-3" controlId="email">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  className="forminput"
+                  type="email"
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  className="forminput"
+                  type="password"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <Form.Group className="mb-3" controlId="confirmPassword">
+                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Control
+                    className="forminput"
+                    type="password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+              </Form.Group>
+              <div className="mb-3">
+                <p>
+                  By creating an account, you agree to BANN Assistive Tech
+                  Store's <a href="/">Conditions of Use</a> and
+                  <a href="/"> Privacy Notice</a>.
+                </p>
+              </div>
+              <div className="mb-3">
+                <Button type="submit" className="button">
+                  Sign Up
+                </Button>
+              </div>
+              <div className="mb-3">
+                Already have an account?{' '}
+                <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
+              </div>
+            </Form>
+          </div>
+        </Col>
+      </Row>
     </Container>
   );
 }
