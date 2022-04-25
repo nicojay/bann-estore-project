@@ -1,10 +1,13 @@
 {
+  "homepage": "http:nicojay.github.io/bann-estore-project",
   "name": "bann-estore",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "build": "cd backend && npm install  && cd ../frontend && npm install && npm run build",
     "start": "node backend/server.js",
+    "predeploy": "npm run builld",
+    "deploy": "gh-pages -d build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,7 +15,9 @@
   "dependencies": {
     "react-google-charts": "^4.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nicojay/bann-estore-project.git"
@@ -20,6 +25,5 @@
   "bugs": {
     "url": "https://github.com/nicojay/bann-estore-project/issues"
   },
-  "homepage": "https://github.com/nicojay/bann-estore-project#readme",
   "description": ""
 }
